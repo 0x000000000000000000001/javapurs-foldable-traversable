@@ -48,8 +48,9 @@ foldableLength :: forall f a. Foldable f => f a -> Int
 foldableLength = unwrap <<< foldMap (const (Additive 1))
 
 -- Ensure that a value is evaluated 'lazily' by treating it as an Eff action.
-deferEff :: forall a. (Unit -> a) -> Effect a
-deferEff = unsafeCoerce
+-- The JavaScript version coerces the function to an Effect (both are thunks
+-- there); the Java backend needs the thunk wrapped, so this is an FFI.
+foreign import deferEff :: forall a. (Unit -> a) -> Effect a
 
 main :: Effect Unit
 main = do
