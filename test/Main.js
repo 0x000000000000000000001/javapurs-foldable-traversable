@@ -36,3 +36,5 @@ export function foldMap1NEArray(append) {
     };
   };
 }
+
+export function deferEff(f) { return f; }
